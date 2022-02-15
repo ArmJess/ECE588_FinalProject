@@ -56,8 +56,6 @@ void deleteCache(struct DLLNode **head){
     *head = NULL;
 }
 
-
-
 //Insert memory location into cache
 void insert(struct DLLNode **head, int location_mem, status_t cache_status){
 
@@ -125,10 +123,8 @@ void delete(struct DLLNode **head, int location_mem){
     struct DLLNode *temp = *head;
     struct DLLNode *temp_prev;
     struct DLLNode *temp_next;
-    //*temp_prev = *temp;
 
-    //case where we don't have anything in the cache anymore anyway so cannot do deletions
-    if(isCacheEmpty(head)){
+    if(isCacheEmpty(head)){ //case where we don't have anything in the cache
         printf("Nothing to delete as cache is empty\n");
         return;
     }
@@ -164,7 +160,44 @@ void delete(struct DLLNode **head, int location_mem){
     }
 }
 
+//Use this function to check the status of a certain memory location in a certain cache
+status_t checkStatus(struct DLLNode **head, int location_mem){
+    struct DLLNode *temp = *head;
+    
+    if(isCacheEmpty(head)){ //case where we don't have anything in the cache
+        printf("Cache is empty so no status can be checked\n");
+    }else{
+
+        int len = length(head);
+
+        for(int i=0; i <len; i++){
+            if(temp->memory_location == location_mem){
+                return temp->status;
+            }else{
+                temp = temp->next;
+            }
+        }
+    }
+}
+
+//Use this function if you want to check if a certain memory location is in a certain cache
+bool checkMemInCache(struct DLLNode **head, int location_mem){
+    struct DLLNode *temp = *head;
+    
+    if(isCacheEmpty(head)){ //case where we don't have anything in the cache
+        printf("Cache is empty so Mem not in this cache\n");
+    }else{
+        int len = length(head);
+
+        for(int i=0; i <len; i++){
+            if(temp->memory_location == location_mem){
+                return 1;
+            }else{
+                temp = temp->next;
+            }
+        }
+    }
+    return 0;
+}
 
 
-void MESI_FSM();
-void MSI_FSM();
