@@ -8,9 +8,19 @@ The node will have the following information: memory location and MESI/MSI statu
 
 #define DEBUG 0
 
+#ifndef CACHE_H
+#define CACHE_H
+
+//Instantiations and Typedefs
 //enumeration definition for our MESI/MSI status
 typedef enum {Modified = 0, Exclusive = 1, Shared = 2, Invalid = 3} status_t;
 
+struct DLLNode *Cache0 = NULL; //Cache 1
+struct DLLNode *Cache1 = NULL; //Cache 2
+struct DLLNode *Cache2 = NULL; //Cache 3
+struct DLLNode *Cache3 = NULL; //Cache 4
+
+//users shouldn't normally need to declare a DLLNode structure -> if so, let's see what other functions we need to put in here
 //declare the structure for a node in our doubly linked list, each node will represent a memory location which is in the specified cache
 struct DLLNode{
     int memory_location;
@@ -19,6 +29,43 @@ struct DLLNode{
     struct DLLNode *previous;
 };
 
+//README AREA where all functions are initially declared with full definitions and code below
+
+//Use this function to check if a partciular cache is empty
+//example: isCacheEmpty(&Cache0)
+bool isCacheEmpty(struct DLLNode **head);
+
+//Use this function to print all the content of a cache with memory locations and status bits
+//example: printCacheContent(&Cache0)
+void printCacheContent(struct DLLNode **head);
+
+//Use this function to find out how many memory locations are saved in a particular cache
+//example: length(&Cache0)
+int length(struct DLLNode **head);
+
+//Use this function to delete a whole cache's contents (caution)
+//example: deleteCache(&Cache0)
+void deleteCache(struct DLLNode **head);
+
+//Use this function to insert a memory location to a cache or to update a memory locations status bit in that cache
+//example: insert(&Cache0, 54468, Exclusive)
+void insert(struct DLLNode **head, int location_mem, status_t cache_status);
+
+//Use this function to delete one memory location from a cache
+//example: delete(&Cache1, 54468)
+void delete(struct DLLNode **head, int location_mem);
+
+//Use this function to check the status bit for a particular memory location in a particular cache
+//example: checkStatus(&Cache1, 54468) -> output will be a numerical value as specified in the MESI/MSI enum above
+//this output format can change, just ask
+status_t checkStatus(struct DLLNode **head, int location_mem);
+
+//Use this function to check if a certain memory location is in a certain cache
+//example: checkMemInCache(&Cache0, 54468)
+bool checkMemInCache(struct DLLNode **head, int location_mem);
+
+
+//All function code and definitions below
 bool isCacheEmpty(struct DLLNode **head){
     if(DEBUG){printf("Empty? %d\n", *head == NULL);}
     return *head == NULL;
@@ -56,7 +103,6 @@ void deleteCache(struct DLLNode **head){
     *head = NULL;
 }
 
-//Insert memory location into cache
 void insert(struct DLLNode **head, int location_mem, status_t cache_status){
 
     struct DLLNode *temp = *head;
@@ -160,7 +206,6 @@ void delete(struct DLLNode **head, int location_mem){
     }
 }
 
-//Use this function to check the status of a certain memory location in a certain cache
 status_t checkStatus(struct DLLNode **head, int location_mem){
     struct DLLNode *temp = *head;
     
@@ -180,7 +225,6 @@ status_t checkStatus(struct DLLNode **head, int location_mem){
     }
 }
 
-//Use this function if you want to check if a certain memory location is in a certain cache
 bool checkMemInCache(struct DLLNode **head, int location_mem){
     struct DLLNode *temp = *head;
     
@@ -200,4 +244,4 @@ bool checkMemInCache(struct DLLNode **head, int location_mem){
     return 0;
 }
 
-
+#endif

@@ -7,11 +7,6 @@ void main(){
     int b = 360;
     int c = 4556;
 
-    struct DLLNode *Cache0 = NULL;
-    struct DLLNode *Cache1 = NULL;
-    struct DLLNode *Cache2 = NULL;
-    struct DLLNode *Cache3 = NULL;
-
     insert(&Cache0, c, Modified);
     insert(&Cache0, c, Exclusive);
     insert(&Cache0, a, Exclusive);
