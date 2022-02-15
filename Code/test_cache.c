@@ -20,8 +20,12 @@ void main(){
 
     length(&Cache0);
     printCacheContent(&Cache0);
-    delete(&Cache0, c);
+    delete(&Cache0, b);
     length(&Cache0);
+    printCacheContent(&Cache0);
+    printf("Empty? %d\n", isCacheEmpty(&Cache0));
+    deleteCache(&Cache0);
+    printf("Empty? %d\n", isCacheEmpty(&Cache0));
     printCacheContent(&Cache0);
   
     return;

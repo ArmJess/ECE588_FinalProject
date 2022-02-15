@@ -19,10 +19,15 @@ struct DLLNode{
     struct DLLNode *previous;
 };
 
+bool isCacheEmpty(struct DLLNode **head){
+    if(DEBUG){printf("Empty? %d\n", *head == NULL);}
+    return *head == NULL;
+}
+
 void printCacheContent(struct DLLNode **head){
     
     struct DLLNode *temp = *head;
-    if(temp == NULL){
+    if(isCacheEmpty(head)){
         printf("Cache is empty.\n");
     }
     while(temp!=NULL){
@@ -47,13 +52,11 @@ int length(struct DLLNode **head){
 
 }
 
-void delete_cache(struct DLLNode **head){
-    head = NULL;
+void deleteCache(struct DLLNode **head){
+    *head = NULL;
 }
 
-bool isCacheEmpty(struct DLLNode **head){
-    return head == NULL;
-}
+
 
 //Insert memory location into cache
 void insert(struct DLLNode **head, int location_mem, status_t cache_status){
@@ -124,42 +127,39 @@ void delete(struct DLLNode **head, int location_mem){
     struct DLLNode *temp_next;
     //*temp_prev = *temp;
 
-    isCacheEmpty(head);
+    //case where we don't have anything in the cache anymore anyway so cannot do deletions
+    if(isCacheEmpty(head)){
+        printf("Nothing to delete as cache is empty\n");
+        return;
+    }
+
     int len = length(head);
 
-    /*while(temp->memory_location <= location_mem){
-        //move us to where this memory location should be in this cache
-        printf("desired mem to delete: %d temp memory: %d\n", location_mem, temp->memory_location);
-        *temp_prev = *temp;
-        printf("temp_prev memory %d\n", temp_prev->memory_location);
-        temp = temp->next;
-        printf("new temp memory after increment: %d\n", temp->memory_location);
-        printf("incrementing through cache\n");
-    }*/
-    /*for(temp; temp->memory_location != location_mem; temp = temp->next){
-        printf("temp memory location: %d\n", temp->memory_location);
-    }*/
-
     for(int i=0; i<len; i++){
-        printf("getting into the for loop\n");
+        if(DEBUG){printf("getting into the for loop with temp mem value: %d and ideal deletion memory: %d\n", temp->memory_location, location_mem);}
         if(temp->memory_location == location_mem){
             //this memory location has already been cached in this cache and can be deleted
-            printf("before temp manipulation and temp mem value: %d\n", temp->memory_location);
+            if(DEBUG){printf("before temp manipulation and temp mem value: %d\n", temp->memory_location);}
             temp_next = temp->next;
-            printf("a\n");
-            if(temp_next == NULL){
+            temp_prev = temp->previous;
+            if(temp_next == NULL & temp_prev == NULL){ //case where we only have one node in the linked list
+                *head = NULL;
+            }else if(temp_next == NULL){ //case where our deletion is at the end of the list
                 temp_prev->next = NULL;
-            }else{
+            }else if(temp_prev == NULL){ //case where our deletion is at the beginning of the list
+                *head = temp_next;
+                temp_next->previous = NULL;
+            }else{ //case where the node is in the middle somewhere
                 temp_prev->next = temp_next;
+                temp_next->previous = temp_prev;
             }
-            printf("b\n");
-            temp_next->previous = temp_prev;
-            printf("attempted to delete\n");
+            if(DEBUG){printf("attempted to delete\n");}
         }else{
             //this memory location has not been cached in this cache
-            *temp_prev = *temp;
+            if(DEBUG){printf("got into the else of deletion");}
+            temp_prev = temp;
             temp = temp->next;
-            printf("not yet made it to the right node yet for deletion\n");
+            if(DEBUG){printf("not yet made it to the right node yet for deletion\n");}
         }
     }
 }
