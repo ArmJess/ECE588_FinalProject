@@ -6,19 +6,21 @@ The node will have the following information: memory location and MESI/MSI statu
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define DEBUG 0
+#define DEBUG 1
 
 #ifndef CACHE_H
 #define CACHE_H
 
 //Instantiations and Typedefs
 //enumeration definition for our MESI/MSI status
-typedef enum {Modified = 0, Exclusive = 1, Shared = 2, Invalid = 3} status_t;
+typedef enum {Modified = 0, Exclusive = 1, Shared = 2, Invalid = 3, Uninit = 4} status_t;
 
-struct DLLNode *Cache0 = NULL; //Cache 1
-struct DLLNode *Cache1 = NULL; //Cache 2
-struct DLLNode *Cache2 = NULL; //Cache 3
-struct DLLNode *Cache3 = NULL; //Cache 4
+extern const char* statusNames[];
+
+extern struct DLLNode *Cache0; //Cache 1
+extern struct DLLNode *Cache1; //Cache 2
+extern struct DLLNode *Cache2; //Cache 3
+extern struct DLLNode *Cache3; //Cache 4
 
 //users shouldn't normally need to declare a DLLNode structure -> if so, let's see what other functions we need to put in here
 //declare the structure for a node in our doubly linked list, each node will represent a memory location which is in the specified cache
@@ -64,184 +66,5 @@ status_t checkStatus(struct DLLNode **head, int location_mem);
 //example: checkMemInCache(&Cache0, 54468)
 bool checkMemInCache(struct DLLNode **head, int location_mem);
 
-
-//All function code and definitions below
-bool isCacheEmpty(struct DLLNode **head){
-    if(DEBUG){printf("Empty? %d\n", *head == NULL);}
-    return *head == NULL;
-}
-
-void printCacheContent(struct DLLNode **head){
-    
-    struct DLLNode *temp = *head;
-    if(isCacheEmpty(head)){
-        printf("Cache is empty.\n");
-    }
-    while(temp!=NULL){
-        printf("Mem location: %d in state: %d\n", temp->memory_location, temp->status);
-        if(DEBUG){printf("temp mem location: %d\n", temp->memory_location);}
-        temp = temp->next;
-    }
-    return;
-}
-
-int length(struct DLLNode **head){
-
-    int length = 0;
-    struct DLLNode *temp = *head;
-
-    for(temp; temp != NULL; temp = temp->next){
-        length++;
-    }
-
-    printf("Number of memory locations in cache: %d\n", length);
-    return length;
-
-}
-
-void deleteCache(struct DLLNode **head){
-    *head = NULL;
-}
-
-void insert(struct DLLNode **head, int location_mem, status_t cache_status){
-
-    struct DLLNode *temp = *head;
-    struct DLLNode *temp_prev;
-    struct DLLNode *temp_next;
-    struct DLLNode *newNode;
-
-    if(temp == NULL){
-        //create and insert newNode as the first node
-        newNode = (struct DLLNode *) malloc(sizeof(struct DLLNode));
-        if(!newNode){
-            printf("Cache simulation: memory allocation error with DLLNode\n");
-        }
-        newNode->memory_location = location_mem;
-        newNode->status = cache_status;
-        newNode->previous = NULL;
-        newNode->next = NULL;
-        *head  = newNode;
-        if(DEBUG){printf("created first node in cache\n");}
-    }
-    else{
-        //If there is already a cache instantiated and with nodes
-        while(temp->memory_location < location_mem){
-            //move us to where this memory location should be in this cache and keep the ordering as lowest mem location to highest as we progress through the linked list
-            if(DEBUG){printf("temp memory: %d\n", temp->memory_location);}
-            temp = temp->next;
-            if(DEBUG){printf("new temp memory after increment: %d\n", temp->memory_location);}
-            if(DEBUG){printf("increment in cache\n");}
-        }
-        if(temp->memory_location == location_mem){
-            //this memory location has already been cached in this cache, just change the status
-            temp->status = cache_status;
-            if(DEBUG){printf("updated mem already in cache\n");}
-            return;
-        }else{
-            //create and insert newNode to the left of temp
-            newNode = (struct DLLNode *) malloc(sizeof(struct DLLNode));
-            if(!newNode){
-                printf("Cache simulation: memory allocation error with DLLNode\n");
-            }
-            newNode->memory_location = location_mem;
-            newNode->status = cache_status;
-            *temp_next = *temp;
-            temp_prev = temp->previous;
-            if(temp_prev == NULL){
-                newNode->previous = temp_prev;
-                *head = newNode;
-            }else{
-                newNode->previous = temp_prev;
-                temp_prev->next = newNode;
-            }
-            newNode->next = temp_next;
-            temp_next->previous = newNode;
-            if(DEBUG){printf("added node to the left in cache\n");}
-
-        }
-        return;
-    }
-
-}
-
-void delete(struct DLLNode **head, int location_mem){
-
-    struct DLLNode *temp = *head;
-    struct DLLNode *temp_prev;
-    struct DLLNode *temp_next;
-
-    if(isCacheEmpty(head)){ //case where we don't have anything in the cache
-        printf("Nothing to delete as cache is empty\n");
-        return;
-    }
-
-    int len = length(head);
-
-    for(int i=0; i<len; i++){
-        if(DEBUG){printf("getting into the for loop with temp mem value: %d and ideal deletion memory: %d\n", temp->memory_location, location_mem);}
-        if(temp->memory_location == location_mem){
-            //this memory location has already been cached in this cache and can be deleted
-            if(DEBUG){printf("before temp manipulation and temp mem value: %d\n", temp->memory_location);}
-            temp_next = temp->next;
-            temp_prev = temp->previous;
-            if(temp_next == NULL & temp_prev == NULL){ //case where we only have one node in the linked list
-                *head = NULL;
-            }else if(temp_next == NULL){ //case where our deletion is at the end of the list
-                temp_prev->next = NULL;
-            }else if(temp_prev == NULL){ //case where our deletion is at the beginning of the list
-                *head = temp_next;
-                temp_next->previous = NULL;
-            }else{ //case where the node is in the middle somewhere
-                temp_prev->next = temp_next;
-                temp_next->previous = temp_prev;
-            }
-            if(DEBUG){printf("attempted to delete\n");}
-        }else{
-            //this memory location has not been cached in this cache
-            if(DEBUG){printf("got into the else of deletion");}
-            temp_prev = temp;
-            temp = temp->next;
-            if(DEBUG){printf("not yet made it to the right node yet for deletion\n");}
-        }
-    }
-}
-
-status_t checkStatus(struct DLLNode **head, int location_mem){
-    struct DLLNode *temp = *head;
-    
-    if(isCacheEmpty(head)){ //case where we don't have anything in the cache
-        printf("Cache is empty so no status can be checked\n");
-    }else{
-
-        int len = length(head);
-
-        for(int i=0; i <len; i++){
-            if(temp->memory_location == location_mem){
-                return temp->status;
-            }else{
-                temp = temp->next;
-            }
-        }
-    }
-}
-
-bool checkMemInCache(struct DLLNode **head, int location_mem){
-    struct DLLNode *temp = *head;
-    
-    if(isCacheEmpty(head)){ //case where we don't have anything in the cache
-        printf("Cache is empty so Mem not in this cache\n");
-    }else{
-        int len = length(head);
-
-        for(int i=0; i <len; i++){
-            if(temp->memory_location == location_mem){
-                return 1;
-            }else{
-                temp = temp->next;
-            }
-        }
-    }
-    return 0;
-}
 
 #endif
