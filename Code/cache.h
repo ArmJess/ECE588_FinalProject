@@ -6,7 +6,7 @@ The node will have the following information: memory location and MESI/MSI statu
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 #ifndef CACHE_H
 #define CACHE_H

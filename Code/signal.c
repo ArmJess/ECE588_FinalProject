@@ -9,7 +9,7 @@ void inputSignals(signal_t *output_signal, status_t *previous_status, int proces
 //output_signal and previous_status are outputs from this function
     if(DEBUG){printf("getting into the inputSignals function\n");}
     signal_t temp_signal;
-    status_t temp_status;
+    status_t temp_status = Uninit;
     if(current_processor == processor_num){
         if(DEBUG){printf("checked the processor num and it matched\n");}
         //all signals are processor signals according to current processor
@@ -34,7 +34,6 @@ void inputSignals(signal_t *output_signal, status_t *previous_status, int proces
         }
     }
     //Need to do: write logic for P_Writeback since I am not so sure about that one yet <---------------
-    
     *output_signal = temp_signal;
     *previous_status= temp_status;
     return;
