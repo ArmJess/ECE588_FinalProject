@@ -22,7 +22,7 @@ void printCacheContent(struct DLLNode **head){
         printf("Cache is empty.\n");
     }
     while(temp!=NULL){
-        printf("Mem location: %d in state: %d\n", temp->memory_location, temp->status);
+        printf("Mem location: %d in state: %s\n", temp->memory_location, statusNames[temp->status]);
         if(DEBUG){printf("temp mem location: %d\n", temp->memory_location);}
         temp = temp->next;
     }
