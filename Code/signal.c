@@ -39,3 +39,27 @@ void inputSignals(signal_t *output_signal, status_t *previous_status, int proces
     return;
 }
 
+//note below: parses one line of the input file at a time
+void inputParse(struct input_line_info *line_info, FILE *file){
+    int buffer0;
+    int buffer1;
+    int buffer2;
+    char buffer3;
+    static int row;
+
+    while(fscanf(file, "%d%*c %d%*c %d%*c %c%*c", &buffer0, &buffer1, &buffer2, &buffer3) != EOF){
+
+    printf("for input file row %d, requesting processor: %d\n", row, buffer0);
+    printf("for input file row %d, block access (memory location): %d\n", row, buffer1);
+    printf("for input file row %d, access time: %d\n", row, buffer2);
+    printf("for input file row %d, access type: %c\n", row, buffer3);
+
+    line_info->processor = buffer0;
+    line_info->block_access = buffer1;
+    line_info->access_time = buffer2;
+    line_info->access_type = buffer3;
+    row++;
+    return;
+    }
+}
+
