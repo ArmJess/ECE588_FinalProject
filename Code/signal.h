@@ -71,13 +71,12 @@ void inputSignals(signal_t *output_signal, status_t *previous_status, int proces
 //Use this function in order to pull in data from the input file -> one row at a time with current implementation
 void inputParse(struct input_line_info *line_info, FILE *file);
 
+//Use this function to find out how many rows of inputs we have in our input file
+int inputLength(char *filepath);
 
 //other notes:
 //when we do a read, insert that mem location into cache and update status
 //when we have a write, it's essentially in our code acts as a read, we imagine that we pulled the data into the cache (read) if it wasn't there already and update the statuses (aka cache insert)
 //overall use gettime in order to run analysis on the performance of the protocol and use the input access time to step through the time
-
-//Saturday: 
-    //finish the input queue of structurs, comment and demonstrate how to use the structure, create a main.c file and put my functions in there in their order with a few sparse comments
 
 #endif

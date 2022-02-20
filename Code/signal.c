@@ -63,3 +63,19 @@ void inputParse(struct input_line_info *line_info, FILE *file){
     }
 }
 
+int inputLength(char *filepath){
+    int temp_row = 0;
+    char temp_buff[20];
+    int status = 0;
+
+    FILE *file = fopen(filepath, "r");
+
+    while(status != EOF){
+        status = fscanf(file, "%20c", &temp_buff);
+        temp_row++;
+    }
+
+    fclose(file);
+    return (temp_row-1);
+}
+
