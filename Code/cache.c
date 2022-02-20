@@ -173,7 +173,7 @@ bool checkMemInCache(struct DLLNode **head, int location_mem){
     struct DLLNode *temp = *head;
     
     if(isCacheEmpty(head)){ //case where we don't have anything in the cache
-        printf("Cache is empty so Mem not in this cache\n");
+        if(DEBUG){printf("Cache is empty so Mem not in this cache\n");}
     }else{
         int len = length(head);
 
