@@ -56,6 +56,30 @@ struct input_line_info
     char access_type;
 };
 
+//the below structure is instantiated for just one core and one memory location in one time stamp and reset at every time stamp, this is to be used for status/signal information going into the protocol functions
+struct per_time_stats
+{
+    status_t prev_status;
+    signal_t curr_signal;
+    status_t new_status;
+    int mem_location;
+};
+
+//the below structure is instantiated for just one memory location in one time stamp and reset at every time stamp, this is to be used for status/signal information going into the protocol functions
+struct per_core_stats {
+    struct per_time_stats core0;
+    struct per_time_stats core1;
+    struct per_time_stats core2;
+    struct per_time_stats core3;
+};
+
+static const struct per_core_stats resetStruct = {
+    {Uninit, NA, Uninit, 0},
+    {Uninit, NA, Uninit, 0},
+    {Uninit, NA, Uninit, 0},
+    {Uninit, NA, Uninit, 0}
+};
+
 //keeping an array of parsed input data, fill one array slot by calling the inputParse function
 //can change the array size and the usage as needed if we want to take in more than one thing at a time
 //I didn't want to bring everything in from the input file because we don't know how many lines we will have in the input file
