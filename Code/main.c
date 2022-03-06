@@ -23,6 +23,12 @@ void main(int argc, char *argv[]){
     path = argv[1];
 	coherenceProtocol = argv[2];
 	
+	//user enters less than expected input arguments
+	if (argc != 3 ){
+		printf ("Please check your command_format: \n <EXECUTABLE_FILE> <INPUT_REQUEST_FILE> <COHERENCE PROTOCOL:(MESI OR MSI)>");
+		return;
+	}
+	
    //If user doesn't enter a valid cache coherence protocol
     for(int i=0; i<=1; i++){
         
