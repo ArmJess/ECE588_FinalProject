@@ -4,9 +4,10 @@
 #include <time.h>
 #include "signal.h"
 #include "cache.h"
+#include "coherenceprotocol.h"
+#include "mi.c"
 #include "msi.c"
 #include "mesi.c"
-#include "coherenceprotocol.h"
 
 //Prototype Functions
 
@@ -23,16 +24,16 @@ void main(int argc, char *argv[]){
     path = argv[1];
 	coherenceProtocol = argv[2];
 	
-	//user enters less than expected input arguments
+	//user enters less/more than expected input arguments
 	if (argc != 3 ){
-		printf ("Please check your command_format: \n <EXECUTABLE_FILE> <INPUT_REQUEST_FILE> <COHERENCE PROTOCOL:(MESI OR MSI)>");
+		printf ("Please check your command_format: \n <EXECUTABLE_FILE> <INPUT_REQUEST_FILE> <COHERENCE PROTOCOL:(MESI or MSI or MI)>");
 		return;
 	}
 	
    //If user doesn't enter a valid cache coherence protocol
     for(int i=0; i<=1; i++){
         
-        if (strcmp(coherenceProtocol,"MESI") ==0 || strcmp(coherenceProtocol,"MSI") ==0 || strcmp(coherenceProtocol,"msi") ==0 || strcmp(coherenceProtocol,"mesi") ==0){
+        if (strcmp(coherenceProtocol,"MESI") ==0 || strcmp(coherenceProtocol,"MSI") ==0 || strcmp(coherenceProtocol,"msi") ==0 || strcmp(coherenceProtocol,"mesi") ==0 || strcmp(coherenceProtocol,"MI") ==0 || strcmp(coherenceProtocol,"mi") ==0){
             printf("I made it in");            
             break;
         }
@@ -123,34 +124,44 @@ void main(int argc, char *argv[]){
         //call protocol function and send in &currentStats nested structure (pointer in function) so that the protocol can know the status of this one mem location in all caches
         //outputs of the protocol function can go into the currentStats structure new_status column
         //example here is just saying that the output of Core0 protocol function is Modified
-    if (coherenceProtocol == "msi" || "MSI")
+    if ((coherenceProtocol == "msi") || (coherenceProtocol == "MSI"))
 		currentStats.core0.new_status = msi(currentStats, 0);
-	else if (coherenceProtocol == "mesi" || "MESI")
+	else if ((coherenceProtocol == "mesi") || (coherenceProtocol == "MESI"))
 		currentStats.core0.new_status = mesi(currentStats, 0);
+	else if ((coherenceProtocol == "mi") || (coherenceProtocol == "MI"))
+		currentStats.core0.new_status = mi(currentStats, 0);
 
     newCore0 = currentStats.core0.new_status;
 
     //Core1
-     if (coherenceProtocol == "msi" || "MSI")
+    if ((coherenceProtocol == "msi") || (coherenceProtocol == "MSI"))
 		currentStats.core1.new_status =  msi(currentStats, 1);
-	 else if (coherenceProtocol == "mesi" || "MESI")
+	else if ((coherenceProtocol == "mesi") || (coherenceProtocol == "MESI"))
 		 currentStats.core1.new_status = mesi(currentStats, 1);
+	else if ((coherenceProtocol == "mi") || (coherenceProtocol == "MI"))
+		currentStats.core1.new_status = mi(currentStats, 1);
 
     newCore1 = currentStats.core1.new_status; 
     
     //Core2
-    if (coherenceProtocol == "msi" || "MSI")
+    if ((coherenceProtocol == "msi") || (coherenceProtocol == "MSI"))
 		currentStats.core2.new_status =  msi(currentStats, 2);
-	else if (coherenceProtocol == "mesi" || "MESI")
+	else if ((coherenceProtocol == "mesi") || (coherenceProtocol == "MESI"))
 		currentStats.core2.new_status = mesi(currentStats, 2);
-    newCore2 = currentStats.core2.new_status;
+    else if ((coherenceProtocol == "mi") || (coherenceProtocol == "MI"))
+		currentStats.core2.new_status = mi(currentStats, 2);
     
+	newCore2 = currentStats.core2.new_status;
+	
     //Core3
-     if (coherenceProtocol == "msi" || "MSI")
+    if ((coherenceProtocol == "msi") || (coherenceProtocol == "MSI"))
 		currentStats.core3.new_status =  msi(currentStats, 3);
-	 else if (coherenceProtocol == "mesi" || "MESI")
+	else if ((coherenceProtocol == "mesi") || (coherenceProtocol == "MESI"))
 		 currentStats.core3.new_status = mesi(currentStats, 3);
-   newCore3 = currentStats.core3.new_status;
+	else if ((coherenceProtocol == "mi") || (coherenceProtocol == "MI"))
+		currentStats.core3.new_status = mi(currentStats, 3);
+	
+	newCore3 = currentStats.core3.new_status;
 
     //3. Inserting new status into the caches
     //Core0
