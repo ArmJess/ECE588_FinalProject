@@ -4,6 +4,8 @@
 #include <time.h>
 #include "signal.h"
 #include "cache.h"
+#include "signal.c"
+#include "cache.c"
 #include "coherenceprotocol.h"
 #include "mi.c"
 #include "msi.c"
