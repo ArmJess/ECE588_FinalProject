@@ -2,6 +2,9 @@
 #include <string.h>
 #include "signal.h"
 #include "cache.h"
+#include "msi.c"
+
+
 
 void main(int argc, char *argv[]){
 
@@ -67,16 +70,16 @@ void main(int argc, char *argv[]){
     currentStats.core1.curr_signal = signalCore1;
     
     //Core2
-    currentStats.core1.mem_location = arr_input[0].block_access; //get mem location
+    currentStats.core2.mem_location = arr_input[0].block_access; //get mem location
     inputSignals(&signalCore1, &statusCore1, arr_input[0].processor, 2, &Cache2, arr_input[0].block_access, arr_input[0].access_type); //get status and B/P signal
-    currentStats.core0.prev_status = statusCore2;
-    currentStats.core0.curr_signal = signalCore2;
+    currentStats.core2.prev_status = statusCore2;
+    currentStats.core2.curr_signal = signalCore2;
  
     //Core3
-    currentStats.core1.mem_location = arr_input[0].block_access; //get mem location
+    currentStats.core3.mem_location = arr_input[0].block_access; //get mem location
     inputSignals(&signalCore1, &statusCore1, arr_input[0].processor, 3, &Cache3, arr_input[0].block_access, arr_input[0].access_type); //get status and B/P signal
-    currentStats.core0.prev_status = statusCore3;
-    currentStats.core0.curr_signal = signalCore3;
+    currentStats.core3.prev_status = statusCore3;
+    currentStats.core3.curr_signal = signalCore3;
 
 
     //2. Getting new status from protocol functions
@@ -84,19 +87,19 @@ void main(int argc, char *argv[]){
         //call protocol function and send in &currentStats nested structure (pointer in function) so that the protocol can know the status of this one mem location in all caches
         //outputs of the protocol function can go into the currentStats structure new_status column
         //example here is just saying that the output of Core0 protocol function is Modified
-    currentStats.core0.new_status = Modified;
+    currentStats.core0.new_status = msi(currentStats, 0);
     newCore0 = currentStats.core0.new_status;
 
     //Core1
-    currentStats.core1.new_status = Modified;
+    currentStats.core1.new_status =  msi(currentStats, 1);
     newCore1 = currentStats.core1.new_status; 
     
     //Core2
-    currentStats.core2.new_status = Modified;
+    currentStats.core2.new_status =  msi(currentStats, 2);
     newCore2 = currentStats.core2.new_status;
     
     //Core3
-    currentStats.core3.new_status = Modified;
+    currentStats.core3.new_status =  msi(currentStats, 3);
     newCore3 = currentStats.core3.new_status;
 
     //3. Inserting new status into the caches

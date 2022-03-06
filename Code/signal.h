@@ -103,4 +103,7 @@ int inputLength(char *filepath);
 //when we have a write, it's essentially in our code acts as a read, we imagine that we pulled the data into the cache (read) if it wasn't there already and update the statuses (aka cache insert)
 //overall use gettime in order to run analysis on the performance of the protocol and use the input access time to step through the time
 
+
+status_t msi(struct per_core_stats currentStats, int processor_num);
+
 #endif
