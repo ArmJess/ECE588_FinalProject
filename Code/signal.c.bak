@@ -8,6 +8,7 @@ const char* signalNames[] = {"P_WR","P_RD","B_WR","B_RD","P_Writeback", "NA"};
 //note below: processor_num is the processor number associated with the input request and current_processor is the current processor we are looking into
 void inputSignals(signal_t *output_signal, status_t *previous_status, int processor_num, int current_processor,struct DLLNode **current_processor_cache, int location_mem, access_type_t input_access_type){
 //output_signal and previous_status are outputs from this function
+	printf("req type: %d \n", input_access_type);
     if(DEBUG){printf("getting into the inputSignals function\n");}
     signal_t temp_signal;
     status_t temp_status = Uninit;
@@ -21,9 +22,11 @@ void inputSignals(signal_t *output_signal, status_t *previous_status, int proces
             temp_status = Uninit;  
         }
         if(input_access_type == Read){
+			printf("entered read fn");
             temp_signal = P_RD; 
         }else{
             temp_signal = P_WR;
+			printf("entered write fn");
         }
     }else{
         if(DEBUG){printf("got into the else so we know the processor doesn't match\n");}

@@ -13,7 +13,7 @@ The node will have the following information: memory location and MESI/MSI statu
 
 //Instantiations and Typedefs
 //enumeration definition for our MESI/MSI status
-typedef enum {Uninit =0, Modified = 1, Exclusive = 2, Shared = 3, Invalid = 4} status_t;
+typedef enum {Modified = 0, Exclusive = 1, Shared = 2, Invalid = 3, Uninit = 4} status_t;
 
 extern const char* statusNames[];
 

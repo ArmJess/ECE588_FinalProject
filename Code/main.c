@@ -65,9 +65,12 @@ void main(int argc, char *argv[]){
     //1. Getting previous status of mem and B/P signal
     //Core0
     currentStats.core0.mem_location = arr_input[0].block_access; //get mem location
+	//printf("before_sending: req type: %c \n", arr_input[0].access_type);
     inputSignals(&signalCore0, &statusCore0, arr_input[0].processor, 0, &Cache0, arr_input[0].block_access, arr_input[0].access_type); //get status and B/P signal
+	//printf("signal after input fn: %d \n", signalCore0);
     currentStats.core0.prev_status = statusCore0;
     currentStats.core0.curr_signal = signalCore0;
+	//printf("signal after assigning: %d \n", currentStats.core0.curr_signal);
 
     //Core1
     currentStats.core1.mem_location = arr_input[0].block_access; //get mem location
@@ -95,29 +98,29 @@ void main(int argc, char *argv[]){
         //example here is just saying that the output of Core0 protocol function is Modified
     if (coherenceProtocol = "msi")
 		currentStats.core0.new_status = msi(currentStats, 0);
-	else if (coherenceProtocol = "mesi")
-		currentStats.core0.new_status = mesi(currentStats, 0);
+	/* else if (coherenceProtocol = "mesi")
+		currentStats.core0.new_status = mesi(currentStats, 0); */
     newCore0 = currentStats.core0.new_status;
 
     //Core1
      if (coherenceProtocol = "msi")
 		currentStats.core1.new_status =  msi(currentStats, 1);
-	 else if (coherenceProtocol = "mesi")
-		 currentStats.core1.new_status = mesi(currentStats, 1);
+	/*  else if (coherenceProtocol = "mesi")
+		 currentStats.core1.new_status = mesi(currentStats, 1); */
     newCore1 = currentStats.core1.new_status; 
     
     //Core2
     if (coherenceProtocol = "msi")
 		currentStats.core2.new_status =  msi(currentStats, 2);
-	else if (coherenceProtocol = "mesi")
-		currentStats.core2.new_status = mesi(currentStats, 2);
+	/* else if (coherenceProtocol = "mesi")
+		currentStats.core2.new_status = mesi(currentStats, 2); */
     newCore2 = currentStats.core2.new_status;
     
     //Core3
      if (coherenceProtocol = "msi")
 		currentStats.core3.new_status =  msi(currentStats, 3);
-	 else if (coherenceProtocol = "mesi")
-		 currentStats.core3.new_status = mesi(currentStats, 3);
+	/*  else if (coherenceProtocol = "mesi")
+		 currentStats.core3.new_status = mesi(currentStats, 3); */
    newCore3 = currentStats.core3.new_status;
 
     //3. Inserting new status into the caches

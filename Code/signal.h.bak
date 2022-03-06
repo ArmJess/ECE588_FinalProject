@@ -45,7 +45,7 @@ E (B_RD) -> S*/
 typedef enum {P_WR = 0, P_RD = 1, B_WR = 2, B_RD = 3, P_Writeback = 4, NA = 5} signal_t;
 
 extern const char* signalNames[];
-typedef enum {Read = 82, Write = 87} access_type_t;
+typedef enum {Read = 0, Write = 1} access_type_t;
 
 struct input_line_info
 {

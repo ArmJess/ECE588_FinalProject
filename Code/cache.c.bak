@@ -7,7 +7,7 @@ struct DLLNode *Cache2 = NULL; //Cache 3
 struct DLLNode *Cache3 = NULL; //Cache 4
 
 //Can use this array to printf user-friendly naming
-const char* statusNames[] = {"Uninit","Modified", "Exclusive", "Shared", "Invalid"};
+const char* statusNames[] = {"Modified", "Exclusive", "Shared", "Invalid", "Uninit"};
 
 //All function code and definitions below
 bool isCacheEmpty(struct DLLNode **head){
