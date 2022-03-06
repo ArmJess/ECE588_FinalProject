@@ -8,6 +8,7 @@
 #include "mesi.c"
 #include "coherenceprotocol.h"
 
+//Prototype Functions
 
 /*/////////////////////////////////////////
 This is the main function.
@@ -24,17 +25,18 @@ void main(int argc, char *argv[]){
 	printf("\nDA:%s %s\n",argv[1],argv[2]);
    
    //If user doesn't enter a valid cache coherence protocol
-    /* for(int i =0; i<=1; i++){
-        if (coherenceProtocol != "MESI" || "MSI" || "msi" || "mesi"){
-                printf("Please choose a valid cache coherence protocol.(MESI or MSI): ");
-                scanf("%s", &coherenceProtocol);
-                printf("You chose %s", coherenceProtocol);
-                i=0;
+    for(int i=0; i<=1; i++){
+        
+        if (strcmp(coherenceProtocol,"MESI") ==0 || strcmp(coherenceProtocol,"MSI") ==0 || strcmp(coherenceProtocol,"msi") ==0 || strcmp(coherenceProtocol,"mesi") ==0){
+            printf("I made it in");            
+            break;
         }
-        else {
-            break; //break out of loop
-        }
-    } */
+
+        printf("Please choose a valid cache coherence protocol.(MESI or MSI): ");
+        gets(coherenceProtocol);    //Takes in user input
+        printf("\nYou chose %s\n", coherenceProtocol);
+        i=0;
+    }
 
     //Get clock start time
     clock_t tStart = clock();
@@ -177,7 +179,7 @@ void main(int argc, char *argv[]){
     fclose(file);
     
     //end get time and report out time taken
-    printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
-
+    printf("Time taken: %.12fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+   // printf("Time = %lld nanoseconds\t(%d.%09lld sec)\n", runtime, runtime / 1000000000, runtime % 1000000000);
     return;
 }
