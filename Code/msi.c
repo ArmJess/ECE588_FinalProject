@@ -125,6 +125,6 @@ else if(processor_num == 3){
 			currentStats.core3.new_status = currentStats.core3.prev_status;
 		}
 	}
-	return currentStats.core2.new_status;
+	return currentStats.core3.new_status;
 }
 }
