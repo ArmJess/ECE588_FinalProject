@@ -24,7 +24,7 @@ void main(int argc, char *argv[]){
 	printf("\nDA:%s %s\n",argv[1],argv[2]);
    
    //If user doesn't enter a valid cache coherence protocol
-    for(int i =0; i<=1; i++){
+    /* for(int i =0; i<=1; i++){
         if (coherenceProtocol != "MESI" || "MSI" || "msi" || "mesi"){
                 printf("Please choose a valid cache coherence protocol.(MESI or MSI): ");
                 scanf("%s", &coherenceProtocol);
@@ -34,7 +34,7 @@ void main(int argc, char *argv[]){
         else {
             break; //break out of loop
         }
-    }
+    } */
 
     //Get clock start time
     clock_t tStart = clock();
