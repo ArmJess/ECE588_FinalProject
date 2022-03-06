@@ -22,8 +22,7 @@ void main(int argc, char *argv[]){
 	char *path, *coherenceProtocol;
     path = argv[1];
 	coherenceProtocol = argv[2];
-	printf("\nDA:%s %s\n",argv[1],argv[2]);
-   
+	
    //If user doesn't enter a valid cache coherence protocol
     for(int i=0; i<=1; i++){
         
