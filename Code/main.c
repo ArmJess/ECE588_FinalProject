@@ -39,8 +39,7 @@ void main(int argc, char *argv[]){
    //If user doesn't enter a valid cache coherence protocol
     for(int i=0; i<=1; i++){
         
-        if (strcmp(coherenceProtocol,"MESI") ==0 || strcmp(coherenceProtocol,"MSI") ==0 || strcmp(coherenceProtocol,"msi") ==0 || strcmp(coherenceProtocol,"mesi") ==0 || strcmp(coherenceProtocol,"MI") ==0 || strcmp(coherenceProtocol,"mi") ==0){
-            printf("I made it in");            
+        if (strcmp(coherenceProtocol,"MESI") ==0 || strcmp(coherenceProtocol,"MSI") ==0 || strcmp(coherenceProtocol,"msi") ==0 || strcmp(coherenceProtocol,"mesi") ==0 || strcmp(coherenceProtocol,"MI") ==0 || strcmp(coherenceProtocol,"mi") ==0){           
             break;
         }
 
