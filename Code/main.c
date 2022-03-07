@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,7 +12,9 @@
 #include "msi.c"
 #include "mesi.c"
 
-//Prototype Functions
+//For execution times
+struct timespec   StartTime;
+struct timespec   EndTime;  
 
 /*/////////////////////////////////////////
 This is the main function.
@@ -47,7 +50,8 @@ void main(int argc, char *argv[]){
     }
 
     //Get clock start time
-    clock_t tStart = clock();
+    //clock_t tStart = clock();
+    clock_gettime(CLOCK_REALTIME, &StartTime);
 
     int loop_length = inputLength(path); //use this as the number of times we need to run the full loop through all cores (this is the number of rows inside the input file)
     printf("number of input rows: %d\n", loop_length); //can take this out -> was just for double checking
@@ -199,10 +203,13 @@ void main(int argc, char *argv[]){
         printf("Testing: cache contents for Core3:\n");
         printCacheContent(&Cache3); //just included for some verification debug
     }
+   
     fclose(file);
-    
     //end get time and report out time taken
-    printf("Time taken: %.12fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
-   // printf("Time = %lld nanoseconds\t(%d.%09lld sec)\n", runtime, runtime / 1000000000, runtime % 1000000000);
+    clock_gettime(CLOCK_REALTIME, &EndTime);
+ 
+    //printf("Time taken: %.12fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+    unsigned long long int runtime = 1000000000 * (EndTime.tv_sec - StartTime.tv_sec) + EndTime.tv_nsec - StartTime.tv_nsec;
+    printf("Time = %lld nanoseconds\t(%d.%09lld sec)\n", runtime, runtime / 1000000000, runtime % 1000000000);
     return;
 }
