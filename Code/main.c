@@ -11,6 +11,7 @@
 #include "mi.c"
 #include "msi.c"
 #include "mesi.c"
+#include <sys/stat.h>
 
 //For execution times
 struct timespec   StartTime;
@@ -50,8 +51,8 @@ void main(int argc, char *argv[]){
     }
 
     //Get clock start time
-    //clock_t tStart = clock();
-    clock_gettime(CLOCK_REALTIME, &StartTime);
+    clock_t tStart = clock();
+    //clock_gettime(CLOCK_REALTIME, &StartTime);
 
     int loop_length = inputLength(path); //use this as the number of times we need to run the full loop through all cores (this is the number of rows inside the input file)
     printf("number of input rows: %d\n", loop_length); //can take this out -> was just for double checking
@@ -59,7 +60,13 @@ void main(int argc, char *argv[]){
     
     
     int i;
-    while (i = fgetc(file) != EOF) {
+    //struct stat sb;
+    //stat(file, &sb);
+
+    //char *file_contents = malloc(sb.st_size);
+
+    while (!feof(file)) {
+        
         inputParse(&arr_input[0], file);
         //access the input information from arr_input[0] which represents the current line of input that we are working on
 
@@ -206,10 +213,10 @@ void main(int argc, char *argv[]){
    
     fclose(file);
     //end get time and report out time taken
-    clock_gettime(CLOCK_REALTIME, &EndTime);
+    //clock_gettime(CLOCK_REALTIME, &EndTime);
  
-    //printf("Time taken: %.12fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
-    unsigned long long int runtime = 1000000000 * (EndTime.tv_sec - StartTime.tv_sec) + EndTime.tv_nsec - StartTime.tv_nsec;
-    printf("Time = %lld nanoseconds\t(%d.%09lld sec)\n", runtime, runtime / 1000000000, runtime % 1000000000);
+    printf("Time taken: %.12fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+    //unsigned long long int runtime = 1000000000 * (EndTime.tv_sec - StartTime.tv_sec) + EndTime.tv_nsec - StartTime.tv_nsec;
+    //printf("Time = %lld nanoseconds\t(%d.%09lld sec)\n", runtime, runtime / 1000000000, runtime % 1000000000);
     return;
 }
