@@ -44,7 +44,7 @@ void main(int argc, char *argv[]){
         }
 
         printf("Please choose a valid cache coherence protocol.(MESI or MSI): ");
-        gets(coherenceProtocol);    //Takes in user input
+        scanf("%s",coherenceProtocol);    //Takes in user input
         printf("\nYou chose %s\n", coherenceProtocol);
         i=0;
     }
