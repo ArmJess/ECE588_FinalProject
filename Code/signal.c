@@ -17,8 +17,6 @@ void inputSignals(signal_t *output_signal, status_t *previous_status, int proces
         if(checkMemInCache(current_processor_cache, location_mem)){
             temp_status = checkStatus(current_processor_cache, location_mem);
             if(DEBUG){printf("checked the processor and found it in mem\n");}
-        }else{
-            temp_status = Uninit;  
         }
         if(input_access_type == Read){
             temp_signal = P_RD; 
@@ -28,6 +26,10 @@ void inputSignals(signal_t *output_signal, status_t *previous_status, int proces
     }else{
         if(DEBUG){printf("got into the else so we know the processor doesn't match\n");}
         //all signals are bus signals according to current processor
+        if(checkMemInCache(current_processor_cache, location_mem)){
+            temp_status = checkStatus(current_processor_cache, location_mem);
+            if(DEBUG){printf("checked the processor and found it in mem\n");}
+        }
         if(input_access_type == Read){
             temp_signal = B_RD; 
         }else{
