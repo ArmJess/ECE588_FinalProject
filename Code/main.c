@@ -181,16 +181,20 @@ void main(int argc, char *argv[]){
 
         //3. Inserting new status into the caches
         //Core0
-        insert(&Cache0, arr_input[0].block_access, newCore0);
+        if (newCore0 != Uninit)
+			insert(&Cache0, arr_input[0].block_access, newCore0);
 
         //Core1
-        insert(&Cache1, arr_input[0].block_access, newCore1);
+        if (newCore1 != Uninit)
+			insert(&Cache1, arr_input[0].block_access, newCore1);
         
         //Core2
-        insert(&Cache2, arr_input[0].block_access, newCore2);
+        if (newCore2 != Uninit)
+			insert(&Cache2, arr_input[0].block_access, newCore2);
         
         //Core3
-        insert(&Cache3, arr_input[0].block_access, newCore3);
+        if (newCore3 != Uninit)
+			insert(&Cache3, arr_input[0].block_access, newCore3);
 
         //Testing outputs
         //Core 0 debug
