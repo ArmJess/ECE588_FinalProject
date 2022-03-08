@@ -11,7 +11,10 @@ status_t mi(struct per_core_stats currentStats, int processor_num){
 			currentStats.core0.new_status = Modified; //from any status to modified
 		}
 		else if ((currentStats.core0.curr_signal == B_RD) || (currentStats.core0.curr_signal == B_WR)){
-			currentStats.core0.new_status = Invalid;
+			if (currentStats.core0.prev_status == Uninit)
+				currentStats.core0.new_status = Uninit;
+			else
+				currentStats.core0.new_status = Invalid;
 		}
 		return currentStats.core0.new_status;
 	}
@@ -21,7 +24,10 @@ status_t mi(struct per_core_stats currentStats, int processor_num){
 			currentStats.core1.new_status = Modified; //from any status to modified
 		}
 		else if ((currentStats.core1.curr_signal == B_RD) || (currentStats.core1.curr_signal == B_WR)){
-			currentStats.core1.new_status = Invalid;
+			if (currentStats.core1.prev_status == Uninit)
+				currentStats.core1.new_status = Uninit;
+			else
+				currentStats.core1.new_status = Invalid;
 		}
 		return currentStats.core1.new_status;
 	}
@@ -31,7 +37,10 @@ status_t mi(struct per_core_stats currentStats, int processor_num){
 			currentStats.core2.new_status = Modified; //from any status to modified
 		}
 		else if ((currentStats.core2.curr_signal == B_RD) || (currentStats.core2.curr_signal == B_WR)){
-			currentStats.core2.new_status = Invalid;
+			if (currentStats.core2.prev_status == Uninit)
+				currentStats.core2.new_status = Uninit;
+			else
+				currentStats.core2.new_status = Invalid;
 		}
 		return currentStats.core2.new_status;
 	}
@@ -41,7 +50,10 @@ status_t mi(struct per_core_stats currentStats, int processor_num){
 			currentStats.core3.new_status = Modified; //from any status to modified
 		}
 		else if ((currentStats.core3.curr_signal == B_RD) || (currentStats.core3.curr_signal == B_WR)){
-			currentStats.core3.new_status = Invalid;
+			if (currentStats.core3.prev_status == Uninit)
+				currentStats.core3.new_status = Uninit;
+			else
+				currentStats.core3.new_status = Invalid;
 		}
 		return currentStats.core3.new_status;
 	}
