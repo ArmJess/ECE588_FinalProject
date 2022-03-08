@@ -124,13 +124,13 @@ void main(int argc, char *argv[]){
         
         //Core2
         currentStats.core2.mem_location = arr_input[0].block_access; //get mem location
-        inputSignals(&signalCore1, &statusCore1, arr_input[0].processor, 2, &Cache2, arr_input[0].block_access, arr_input[0].access_type); //get status and B/P signal
+        inputSignals(&signalCore2, &statusCore2, arr_input[0].processor, 2, &Cache2, arr_input[0].block_access, arr_input[0].access_type); //get status and B/P signal
         currentStats.core2.prev_status = statusCore2;
         currentStats.core2.curr_signal = signalCore2;
     
         //Core3
         currentStats.core3.mem_location = arr_input[0].block_access; //get mem location
-        inputSignals(&signalCore1, &statusCore1, arr_input[0].processor, 3, &Cache3, arr_input[0].block_access, arr_input[0].access_type); //get status and B/P signal
+        inputSignals(&signalCore3, &statusCore3, arr_input[0].processor, 3, &Cache3, arr_input[0].block_access, arr_input[0].access_type); //get status and B/P signal
         currentStats.core3.prev_status = statusCore3;
         currentStats.core3.curr_signal = signalCore3;
 
@@ -140,41 +140,41 @@ void main(int argc, char *argv[]){
             //call protocol function and send in &currentStats nested structure (pointer in function) so that the protocol can know the status of this one mem location in all caches
             //outputs of the protocol function can go into the currentStats structure new_status column
             //example here is just saying that the output of Core0 protocol function is Modified
-        if ((coherenceProtocol == "msi") || (coherenceProtocol == "MSI"))
+        if ((strcmp(coherenceProtocol,"MSI") ==0 ) || (strcmp(coherenceProtocol,"msi") ==0 ))
             currentStats.core0.new_status = msi(currentStats, 0);
-        else if ((coherenceProtocol == "mesi") || (coherenceProtocol == "MESI"))
+        else if ((strcmp(coherenceProtocol,"MESI") ==0 ) || (strcmp(coherenceProtocol,"mesi") ==0 ))
             currentStats.core0.new_status = mesi(currentStats, 0);
-        else if ((coherenceProtocol == "mi") || (coherenceProtocol == "MI"))
+        else if ((strcmp(coherenceProtocol,"MI") ==0 ) || (strcmp(coherenceProtocol,"mi") ==0 ))
             currentStats.core0.new_status = mi(currentStats, 0);
 
         newCore0 = currentStats.core0.new_status;
 
         //Core1
-        if ((coherenceProtocol == "msi") || (coherenceProtocol == "MSI"))
+        if ((strcmp(coherenceProtocol,"MSI") ==0 ) || (strcmp(coherenceProtocol,"msi") ==0 ))
             currentStats.core1.new_status =  msi(currentStats, 1);
-        else if ((coherenceProtocol == "mesi") || (coherenceProtocol == "MESI"))
+        else if ((strcmp(coherenceProtocol,"MESI") ==0 ) || (strcmp(coherenceProtocol,"mesi") ==0 ))
             currentStats.core1.new_status = mesi(currentStats, 1);
-        else if ((coherenceProtocol == "mi") || (coherenceProtocol == "MI"))
+        else if ((strcmp(coherenceProtocol,"MI") ==0 ) || (strcmp(coherenceProtocol,"mi") ==0 ))
             currentStats.core1.new_status = mi(currentStats, 1);
 
         newCore1 = currentStats.core1.new_status; 
         
         //Core2
-        if ((coherenceProtocol == "msi") || (coherenceProtocol == "MSI"))
+        if ((strcmp(coherenceProtocol,"MSI") ==0 ) || (strcmp(coherenceProtocol,"msi") ==0 ))
             currentStats.core2.new_status =  msi(currentStats, 2);
-        else if ((coherenceProtocol == "mesi") || (coherenceProtocol == "MESI"))
+        else if ((strcmp(coherenceProtocol,"MESI") ==0 ) || (strcmp(coherenceProtocol,"mesi") ==0 ))
             currentStats.core2.new_status = mesi(currentStats, 2);
-        else if ((coherenceProtocol == "mi") || (coherenceProtocol == "MI"))
+        else if ((strcmp(coherenceProtocol,"MI") ==0 ) || (strcmp(coherenceProtocol,"mi") ==0 ))
             currentStats.core2.new_status = mi(currentStats, 2);
         
         newCore2 = currentStats.core2.new_status;
         
         //Core3
-        if ((coherenceProtocol == "msi") || (coherenceProtocol == "MSI"))
+        if ((strcmp(coherenceProtocol,"MSI") ==0 ) || (strcmp(coherenceProtocol,"msi") ==0 ))
             currentStats.core3.new_status =  msi(currentStats, 3);
-        else if ((coherenceProtocol == "mesi") || (coherenceProtocol == "MESI"))
+        else if ((strcmp(coherenceProtocol,"MESI") ==0 ) || (strcmp(coherenceProtocol,"mesi") ==0 ))
             currentStats.core3.new_status = mesi(currentStats, 3);
-        else if ((coherenceProtocol == "mi") || (coherenceProtocol == "MI"))
+        else if ((strcmp(coherenceProtocol,"MI") ==0 ) || (strcmp(coherenceProtocol,"mi") ==0 ))
             currentStats.core3.new_status = mi(currentStats, 3);
         
         newCore3 = currentStats.core3.new_status;
