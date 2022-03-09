@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <time.h>
 #include "signal.h"
 #include "cache.h"
@@ -15,7 +16,14 @@
 
 //For execution times
 struct timespec   StartTime;
-struct timespec   EndTime;  
+struct timespec   EndTime;
+
+//For timing taxation
+int core0_time_tax;
+int core1_time_tax;
+int core2_time_tax;
+int core3_time_tax;
+int max_wait;  
 
 /*/////////////////////////////////////////
 This is the main function.
@@ -50,8 +58,8 @@ void main(int argc, char *argv[]){
     }
 
     //Get clock start time
-    clock_t tStart = clock();
-    //clock_gettime(CLOCK_REALTIME, &StartTime);
+    //clock_t tStart = clock();
+    clock_gettime(CLOCK_REALTIME, &StartTime);
 
     int loop_length = inputLength(path); //use this as the number of times we need to run the full loop through all cores (this is the number of rows inside the input file)
     printf("number of input rows: %d\n", loop_length); //can take this out -> was just for double checking
@@ -196,6 +204,17 @@ void main(int argc, char *argv[]){
         if (newCore3 != Uninit)
 			insert(&Cache3, arr_input[0].block_access, newCore3);
 
+        //4. Adding timing taxation for performance simulation
+        core0_time_tax =1;
+        core1_time_tax =4;
+        core2_time_tax =3;
+        core3_time_tax=2;
+        
+        max_wait = core1_time_tax; //in terms of milliseconds
+
+        printf("max tax: %d\n", core1_time_tax);
+        usleep(max_wait*1000); //in terms of microseconds
+
         //Testing outputs
         //Core 0 debug
         printf("Testing: cache contents for Core0:\n");
@@ -216,10 +235,10 @@ void main(int argc, char *argv[]){
    
     fclose(file);
     //end get time and report out time taken
-    //clock_gettime(CLOCK_REALTIME, &EndTime);
+    clock_gettime(CLOCK_REALTIME, &EndTime);
  
-    printf("Time taken: %.12fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
-    //unsigned long long int runtime = 1000000000 * (EndTime.tv_sec - StartTime.tv_sec) + EndTime.tv_nsec - StartTime.tv_nsec;
-    //printf("Time = %lld nanoseconds\t(%d.%09lld sec)\n", runtime, runtime / 1000000000, runtime % 1000000000);
+    //printf("Time taken: %.12fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+    unsigned long long int runtime = 1000000000 * (EndTime.tv_sec - StartTime.tv_sec) + EndTime.tv_nsec - StartTime.tv_nsec;
+    printf("Time = %lld nanoseconds\t(%d.%09lld sec)\n", runtime, runtime / 1000000000, runtime % 1000000000);
     return;
 }
