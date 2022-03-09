@@ -97,6 +97,12 @@ void inputParse(struct input_line_info *line_info, FILE *file);
 //Use this function to find out how many rows of inputs we have in our input file
 int inputLength(char *filepath);
 
+//Use this function to find the max of four integers
+int maxFour(int a, int b, int c, int d);
+
+//Use this function in order to know how much time should be tasked for particular cache/memory activities
+int timetax(struct per_core_stats currentStats, int processor_num);
+
 //other notes:
 //when we do a read, insert that mem location into cache and update status
 //when we have a write, it's essentially in our code acts as a read, we imagine that we pulled the data into the cache (read) if it wasn't there already and update the statuses (aka cache insert)

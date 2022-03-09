@@ -82,3 +82,70 @@ int inputLength(char *filepath){
     return (temp_row-1);
 }
 
+int maxFour(int a, int b, int c, int d){
+    int temp =0;
+
+    if(a>b){
+        temp = a;
+    }else{
+        temp = b;
+    }
+    if(c>temp){
+        temp = c;
+    }
+    if(d>temp){
+        temp = d;
+    }
+
+    return temp;
+}
+
+int timetax(struct per_core_stats currentStats, int processor_num){
+    int temp=0;
+
+    if(processor_num==0){
+        if(currentStats.core0.prev_status==Invalid & currentStats.core0.new_status==Modified){
+            temp = 5;
+        }else if(currentStats.core0.prev_status==Invalid & currentStats.core0.new_status==Exclusive){
+            temp = 5;
+        }else if(currentStats.core0.prev_status==Invalid & currentStats.core0.new_status==Shared){
+            temp = 2;
+        }else{
+            temp = 1;
+        }
+    }
+    if(processor_num==1){
+        if(currentStats.core1.prev_status==Invalid & currentStats.core1.new_status==Modified){
+            temp = 5;
+        }else if(currentStats.core1.prev_status==Invalid & currentStats.core1.new_status==Exclusive){
+            temp = 5;
+        }else if(currentStats.core1.prev_status==Invalid & currentStats.core1.new_status==Shared){
+            temp = 2;
+        }else{
+            temp = 1;
+        }
+    }
+    if(processor_num==2){
+        if(currentStats.core2.prev_status==Invalid & currentStats.core2.new_status==Modified){
+            temp = 5;
+        }else if(currentStats.core2.prev_status==Invalid & currentStats.core2.new_status==Exclusive){
+            temp = 5;
+        }else if(currentStats.core2.prev_status==Invalid & currentStats.core2.new_status==Shared){
+            temp = 2;
+        }else{
+            temp = 1;
+        }
+    }
+    if(processor_num==3){
+        if(currentStats.core3.prev_status==Invalid & currentStats.core3.new_status==Modified){
+            temp = 5;
+        }else if(currentStats.core3.prev_status==Invalid & currentStats.core3.new_status==Exclusive){
+            temp = 5;
+        }else if(currentStats.core3.prev_status==Invalid & currentStats.core3.new_status==Shared){
+            temp = 2;
+        }else{
+            temp = 1;
+        }
+    }
+    return temp;
+}

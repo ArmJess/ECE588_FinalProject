@@ -142,7 +142,7 @@ void main(int argc, char *argv[]){
         currentStats.core3.prev_status = statusCore3;
         currentStats.core3.curr_signal = signalCore3;
 
-
+        printf("getting this far\n");
         //2. Getting new status from protocol functions
         //Core0
             //call protocol function and send in &currentStats nested structure (pointer in function) so that the protocol can know the status of this one mem location in all caches
@@ -186,35 +186,36 @@ void main(int argc, char *argv[]){
             currentStats.core3.new_status = mi(currentStats, 3);
         
         newCore3 = currentStats.core3.new_status;
-
+        printf("getting this far 2\n");
         //3. Inserting new status into the caches
         //Core0
         if (newCore0 != Uninit)
 			insert(&Cache0, arr_input[0].block_access, newCore0);
-
+        printf("getting this far 2a\n");
         //Core1
         if (newCore1 != Uninit)
 			insert(&Cache1, arr_input[0].block_access, newCore1);
-        
+        printf("getting this far 2b\n");
         //Core2
         if (newCore2 != Uninit)
 			insert(&Cache2, arr_input[0].block_access, newCore2);
-        
+        printf("getting this far 2d\n");
         //Core3
         if (newCore3 != Uninit)
 			insert(&Cache3, arr_input[0].block_access, newCore3);
-
+        printf("getting this far 3\n");
         //4. Adding timing taxation for performance simulation
-        core0_time_tax =1;
-        core1_time_tax =4;
-        core2_time_tax =3;
-        core3_time_tax=2;
-        
-        max_wait = core1_time_tax; //in terms of milliseconds
-
-        printf("max tax: %d\n", core1_time_tax);
+        core0_time_tax = timetax(currentStats, 0);
+        core1_time_tax = timetax(currentStats, 1);
+        core2_time_tax = timetax(currentStats, 2);
+        core3_time_tax = timetax(currentStats, 3);
+        printf("getting this far 4\n");
+        max_wait = maxFour(core0_time_tax, core1_time_tax, core2_time_tax, core3_time_tax); //in terms of milliseconds
+        if(max_wait >1){
+            printf("-----------------------------------------------------sleeping for %d milliseconds\n", max_wait);
+        }
         usleep(max_wait*1000); //in terms of microseconds
-
+        printf("getting this far 5\n");
         //Testing outputs
         //Core 0 debug
         printf("Testing: cache contents for Core0:\n");
