@@ -114,6 +114,8 @@ int timetax(struct per_core_stats currentStats, int processor_num){
             temp = MEM_TAX;
         }else if(currentStats.core0.prev_status==Invalid & currentStats.core0.new_status==Shared){
             temp = CORE_SHARE_TAX;
+        }else if(currentStats.core0.prev_status==Modified & currentStats.core0.new_status==Shared){
+            temp = CORE_SHARE_TAX + DEFAULT_TAX;
         }else{
             temp = DEFAULT_TAX;
         }
@@ -125,6 +127,8 @@ int timetax(struct per_core_stats currentStats, int processor_num){
             temp = MEM_TAX;
         }else if(currentStats.core1.prev_status==Invalid & currentStats.core1.new_status==Shared){
             temp = CORE_SHARE_TAX;
+        }else if(currentStats.core1.prev_status==Modified & currentStats.core1.new_status==Shared){
+            temp = CORE_SHARE_TAX + DEFAULT_TAX;
         }else{
             temp = DEFAULT_TAX;
         }
@@ -136,6 +140,8 @@ int timetax(struct per_core_stats currentStats, int processor_num){
             temp = MEM_TAX;
         }else if(currentStats.core2.prev_status==Invalid & currentStats.core2.new_status==Shared){
             temp = CORE_SHARE_TAX;
+        }else if(currentStats.core2.prev_status==Modified & currentStats.core2.new_status==Shared){
+            temp = CORE_SHARE_TAX + DEFAULT_TAX;
         }else{
             temp = DEFAULT_TAX;
         }
@@ -147,6 +153,8 @@ int timetax(struct per_core_stats currentStats, int processor_num){
             temp = MEM_TAX;
         }else if(currentStats.core3.prev_status==Invalid & currentStats.core3.new_status==Shared){
             temp = CORE_SHARE_TAX;
+        }else if(currentStats.core3.prev_status==Modified & currentStats.core3.new_status==Shared){
+            temp = CORE_SHARE_TAX + DEFAULT_TAX;
         }else{
             temp = DEFAULT_TAX;
         }
