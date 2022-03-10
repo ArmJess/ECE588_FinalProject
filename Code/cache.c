@@ -72,11 +72,33 @@ void insert(struct DLLNode **head, int location_mem, status_t cache_status){
         while(temp->memory_location < location_mem){
             //move us to where this memory location should be in this cache and keep the ordering as lowest mem location to highest as we progress through the linked list
             if(DEBUG){printf("temp memory: %d\n", temp->memory_location);}
+            temp_prev = temp;
+            printf("1a\n");
             temp = temp->next;
+            if(temp==NULL){
+                break;
+            }
             if(DEBUG){printf("new temp memory after increment: %d\n", temp->memory_location);}
             if(DEBUG){printf("increment in cache\n");}
         }
-        if(temp->memory_location == location_mem){
+        if(temp == NULL){
+            //create and insert newNode to the right of temp - aka at the end of the linkedlist
+            newNode = (struct DLLNode *) malloc(sizeof(struct DLLNode));
+            if(!newNode){
+                printf("Cache simulation: memory allocation error with DLLNode\n");
+            }
+            newNode->memory_location = location_mem;
+            printf("1\n");
+            newNode->status = cache_status;
+            printf("2\n");
+            newNode->next = NULL;
+            printf("3\n");
+            printf("4\n");
+            temp_prev->next = newNode;
+            printf("5\n");
+            newNode->previous = temp_prev;
+            if(DEBUG){printf("added node to the right in cache\n");}
+        }else if(temp->memory_location == location_mem){
             //this memory location has already been cached in this cache, just change the status
             temp->status = cache_status;
             if(DEBUG){printf("updated mem already in cache\n");}
@@ -91,11 +113,10 @@ void insert(struct DLLNode **head, int location_mem, status_t cache_status){
             newNode->status = cache_status;
             temp_next = temp;
             temp_prev = temp->previous;
+            newNode->previous = temp_prev;
             if(temp_prev == NULL){
-                newNode->previous = temp_prev;
                 *head = newNode;
             }else{
-                newNode->previous = temp_prev;
                 temp_prev->next = newNode;
             }
             newNode->next = temp_next;
