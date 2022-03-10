@@ -73,7 +73,6 @@ void insert(struct DLLNode **head, int location_mem, status_t cache_status){
             //move us to where this memory location should be in this cache and keep the ordering as lowest mem location to highest as we progress through the linked list
             if(DEBUG){printf("temp memory: %d\n", temp->memory_location);}
             temp_prev = temp;
-            printf("1a\n");
             temp = temp->next;
             if(temp==NULL){
                 break;
@@ -88,14 +87,9 @@ void insert(struct DLLNode **head, int location_mem, status_t cache_status){
                 printf("Cache simulation: memory allocation error with DLLNode\n");
             }
             newNode->memory_location = location_mem;
-            printf("1\n");
             newNode->status = cache_status;
-            printf("2\n");
             newNode->next = NULL;
-            printf("3\n");
-            printf("4\n");
             temp_prev->next = newNode;
-            printf("5\n");
             newNode->previous = temp_prev;
             if(DEBUG){printf("added node to the right in cache\n");}
         }else if(temp->memory_location == location_mem){
