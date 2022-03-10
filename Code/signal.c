@@ -1,6 +1,10 @@
 //Prototypes for the functions below are found in the signal.h header file
 #include "signal.h"
 
+#define MEM_TAX 40
+#define CORE_SHARE_TAX 2
+#define DEFAULT_TAX 1
+
 //Can use this array to printf user-friendly naming
 const char* signalNames[] = {"P_WR","P_RD","B_WR","B_RD","P_Writeback", "NA"};
 
@@ -105,46 +109,46 @@ int timetax(struct per_core_stats currentStats, int processor_num){
 
     if(processor_num==0){
         if(currentStats.core0.prev_status==Invalid & currentStats.core0.new_status==Modified){
-            temp = 5;
+            temp = MEM_TAX;
         }else if(currentStats.core0.prev_status==Invalid & currentStats.core0.new_status==Exclusive){
-            temp = 5;
+            temp = MEM_TAX;
         }else if(currentStats.core0.prev_status==Invalid & currentStats.core0.new_status==Shared){
-            temp = 2;
+            temp = CORE_SHARE_TAX;
         }else{
-            temp = 1;
+            temp = DEFAULT_TAX;
         }
     }
     if(processor_num==1){
         if(currentStats.core1.prev_status==Invalid & currentStats.core1.new_status==Modified){
-            temp = 5;
+            temp = MEM_TAX;
         }else if(currentStats.core1.prev_status==Invalid & currentStats.core1.new_status==Exclusive){
-            temp = 5;
+            temp = MEM_TAX;
         }else if(currentStats.core1.prev_status==Invalid & currentStats.core1.new_status==Shared){
-            temp = 2;
+            temp = CORE_SHARE_TAX;
         }else{
-            temp = 1;
+            temp = DEFAULT_TAX;
         }
     }
     if(processor_num==2){
         if(currentStats.core2.prev_status==Invalid & currentStats.core2.new_status==Modified){
-            temp = 5;
+            temp = MEM_TAX;
         }else if(currentStats.core2.prev_status==Invalid & currentStats.core2.new_status==Exclusive){
-            temp = 5;
+            temp = MEM_TAX;
         }else if(currentStats.core2.prev_status==Invalid & currentStats.core2.new_status==Shared){
-            temp = 2;
+            temp = CORE_SHARE_TAX;
         }else{
-            temp = 1;
+            temp = DEFAULT_TAX;
         }
     }
     if(processor_num==3){
         if(currentStats.core3.prev_status==Invalid & currentStats.core3.new_status==Modified){
-            temp = 5;
+            temp = MEM_TAX;
         }else if(currentStats.core3.prev_status==Invalid & currentStats.core3.new_status==Exclusive){
-            temp = 5;
+            temp = MEM_TAX;
         }else if(currentStats.core3.prev_status==Invalid & currentStats.core3.new_status==Shared){
-            temp = 2;
+            temp = CORE_SHARE_TAX;
         }else{
-            temp = 1;
+            temp = DEFAULT_TAX;
         }
     }
     return temp;
